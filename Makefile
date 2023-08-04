@@ -1,11 +1,13 @@
 CXXFLAGS=-std=c++17 --coverage
+REPORT=report.html
+BINARIES=first_test
 
-all: report.html
+all: $(REPORT)
 
-report.html: first_test
-	./first_test
-	gcovr --html -o report.html
+report.html: $(BINARIES)
+	for f in $^; do  ./$$f; done
+	gcovr --html -o $@
 
 .PHONY: clean
 clean:
-	rm -f *.gcov *.gcda *.gcno first_test report.html
+	rm -f *.gcov *.gcda *.gcno $(BINARIES) $(REPORT)
